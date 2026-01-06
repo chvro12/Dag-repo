@@ -1,11 +1,12 @@
 from datetime import datetime
 from airflow import DAG
-from airflow.operators.empty import EmptyOperator
-from airflow.decorators import task
+from airflow.providers.standard.operators.empty import EmptyOperator
+from airflow.sdk.task import task
 from airflow.providers.amazon.aws.hooks.s3 import S3Hook
 from airflow.providers.amazon.aws.operators.lambda_function import LambdaInvokeFunctionOperator
 import requests
 import boto3
+import json
 
 with DAG(
     dag_id="weather",
@@ -84,10 +85,7 @@ with DAG(
     merge_weather_data = LambdaInvokeFunctionOperator(
         task_id="merge_weather_data",
         function_name="EsgiIabdM2SThiamAirflowWeather",
-        payload={
-            "openmeteo_key": "{{ ti.xcom_pull(task_ids='fetch_openmeteo') }}",
-            "7timer_key": "{{ ti.xcom_pull(task_ids='fetch_7timer') }}"
-        },
+        payload='{"openmeteo_key": "{{ ti.xcom_pull(task_ids=\'fetch_openmeteo\') }}", "7timer_key": "{{ ti.xcom_pull(task_ids=\'fetch_7timer\') }}"}',
         aws_conn_id="aws_default"
     )
     
