@@ -84,7 +84,7 @@ with DAG(
     
     merge_weather_data = LambdaInvokeFunctionOperator(
         task_id="merge_weather_data",
-        function_name="EsgilabdM2SThiamAirflowWeather",
+        function_name="EsgiIabdM2SThiamAirflowWeather",
         payload={
             "openmeteo_key": "{{ ti.xcom_pull(task_ids='fetch_openmeteo') }}",
             "7timer_key": "{{ ti.xcom_pull(task_ids='fetch_7timer') }}"
