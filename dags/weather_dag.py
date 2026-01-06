@@ -1,7 +1,7 @@
 from datetime import datetime
 from airflow import DAG
-from airflow.providers.standard.operators.empty import EmptyOperator
-from airflow.sdk.task import task
+from airflow.operators.empty import EmptyOperator
+from airflow.decorators import task
 from airflow.providers.amazon.aws.hooks.s3 import S3Hook
 from airflow.providers.amazon.aws.operators.lambda_function import LambdaInvokeFunctionOperator
 import requests
