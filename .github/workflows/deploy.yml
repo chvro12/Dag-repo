@@ -1,0 +1,31 @@
+name: Deploy to Astronomer
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Astronomer CLI
+        run: |
+          curl -sSL install.astronomer.io | sudo bash -s
+
+      - name: Authenticate with Astronomer
+        run: |
+          echo "${{ secrets.ASTRONOMER_KEY_ID }}:${{ secrets.ASTRONOMER_KEY_SECRET }}" | astro auth login --token
+
+      - name: Deploy to Astronomer
+        run: |
+          astro deploy --dags
+
