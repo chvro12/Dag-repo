@@ -27,5 +27,5 @@ jobs:
 
       - name: Deploy to Astronomer
         run: |
-          astro deploy --dags
+          astro deploy
 
